@@ -1,3 +1,4 @@
+require 'rubyrel/ddl/dsl'
 require 'rubyrel/ddl/attribute'
 require 'rubyrel/ddl/foreign_key'
 require 'rubyrel/ddl/key'

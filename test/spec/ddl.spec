@@ -3,7 +3,7 @@ describe ::Rubyrel::DDL do
   
   it "should propose creating database schemas easily" do
     schema = Rubyrel::DDL.schema(:database) do
-      open(:public) {
+      namespace(:public) {
         relvar(:people) {
           attribute :id   => Integer
           attribute :name => String
@@ -48,7 +48,7 @@ describe ::Rubyrel::DDL do
   
   it "should support naming candidate keys" do
     schema = Rubyrel::DDL.schema(:database) do
-      open(:public) {
+      namespace(:public) {
         relvar(:people) {
           attribute :id   => Integer
           attribute :name => String
@@ -67,6 +67,64 @@ describe ::Rubyrel::DDL do
     ak = people.candidate_keys["by_name"]
     ak.name.should == "by_name"
     ak.attributes.should == people.attributes(:name)
+  end
+  
+  it "should support expressing composite keys" do
+    schema = Rubyrel::DDL.schema(:database) do
+      namespace(:public) {
+        relvar(:people) {
+          attribute :id   => Integer
+          attribute :name => String
+          primary_key :id, :name
+        }
+      }
+    end
+    people = schema.namespace(:public).relvar(:people)
+    pk = people.primary_key
+    pk.attributes.should == people.attributes(:id, :name)
+  end
+
+  it "should support expressing named composite keys" do
+    schema = Rubyrel::DDL.schema(:database) do
+      namespace(:public) {
+        relvar(:people) {
+          attribute :id   => Integer
+          attribute :name => String
+          primary_key "pk", :id, :name
+        }
+      }
+    end
+    people = schema.namespace(:public).relvar(:people)
+    pk = people.primary_key
+    pk.name.should == "pk"
+    pk.attributes.should == people.attributes(:id, :name)
+  end
+
+  it "should support expressing foreign keys" do
+    schema = Rubyrel::DDL.schema(:database) do
+      namespace(:public) {
+        relvar(:people) {
+          attribute :id   => Integer
+          attribute :name => String
+          primary_key :id
+          candidate_key :name
+        }
+        relvar(:mails) {
+          attribute :people => Integer
+          attribute :mail   => String
+          primary_key :people, :mail
+          foreign_key :people => relvar(:people)
+        }
+      }
+    end
+    n = schema.namespace(:public)
+    people = n.relvar(:people)
+    mails = n.relvar(:mails)
+    fk = mails.foreign_keys.values[0]
+    fk.should_not be_nil
+    fk.name.should == "fk_mails_0"
+    fk.attributes.should == mails.attributes(:people)
+    fk.target.should == people.primary_key
   end
 
 end
