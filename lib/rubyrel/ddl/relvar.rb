@@ -90,6 +90,16 @@ module Rubyrel
         fk
       end
       
+      # Yields the block with each candidate key in turn
+      def each_candidate_key
+        candidate_keys.each_pair{|name,k| yield(k) if block_given?}
+      end
+      
+      # Yields the block with each foreign key in turn
+      def each_foreign_key
+        foreign_keys.each_pair{|name,k| yield(k) if block_given?}
+      end
+      
     end # class Relvar
   end # module DDL
 end # module Rubyrel

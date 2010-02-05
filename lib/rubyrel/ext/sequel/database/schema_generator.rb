@@ -8,5 +8,13 @@ module Sequel
       end
       
     end # class Generator
+    class AlterTableGenerator
+      
+      # Adds an operation
+      def rubyrel_add_operation(opts)
+        @operations << opts
+      end
+      
+    end # class AlterTableGenerator
   end # module Schema
 end # module Sequel

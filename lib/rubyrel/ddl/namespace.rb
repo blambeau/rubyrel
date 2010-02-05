@@ -2,6 +2,7 @@ module Rubyrel
   module DDL
     # A namespace inside a database schame
     class Namespace
+      include Enumerable
       
       # Paret schema
       attr_reader :schema
@@ -25,6 +26,12 @@ module Rubyrel
       def __dsl_execute(&block)
         DSL.new(self, &block)
       end
+      
+      # Yields the block with each relvar in the namespace
+      def each 
+        relvars.each_pair{|name,r| yield r if block_given?}
+      end
+      alias :each_relvar :each
       
       # Adds a relvar to this namespace
       def add_relvar(relvar)

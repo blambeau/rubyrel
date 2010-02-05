@@ -4,12 +4,24 @@ module Rubyrel
       
       # Installs this schema on a given sequel database
       def install_on(db)
-        namespaces.values.each{|n| n.install_on(db)}
+        buffer = ""
+        all_objects_in_order.each{|o| 
+          sql = o.to_create_sql(db)
+          (buffer << sql << ";\n") unless sql.nil? or sql.empty?
+        }
+        #puts buffer
+        db.execute_ddl(buffer)
       end
       
       # Installs this schema on a given sequel database
       def uninstall_on(db)
-        namespaces.values.each{|n| n.uninstall_on(db)}
+        buffer = ""
+        all_objects_in_order.reverse.each{|o| 
+          sql = o.to_clean_sql(db)
+          (buffer << sql << ";\n") unless sql.nil? or sql.empty?
+        }
+        #puts buffer
+        db.execute_ddl(buffer)
       end
       
       # Generates a SQL DDL statement for creating the database, using

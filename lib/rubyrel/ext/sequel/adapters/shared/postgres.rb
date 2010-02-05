@@ -3,9 +3,15 @@ module Sequel
     module DatabaseMethods
       
       # Returns true if the database supports schemas, false otherwise
-      def supports_schemas?
-        true
-      end
+      def supports_schemas?() true; end
+    
+      # Returns true if the database supports adding constraints with alter table
+      # DDL statements, false otherwise
+      def supports_external_add_constraints?() true; end
+    
+      # Returns true if the database supports removing constraints with alter table
+      # DDL statements, false otherwise
+      def supports_external_drop_constraints?() true; end
     
       # DDL statement for creating a schema
       def create_schema_sql(name, opts = {})
