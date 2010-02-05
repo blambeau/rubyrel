@@ -1,5 +1,10 @@
 require "rubyrel"
 describe ::Rubyrel::DDL do
+  include ::Rubyrel::Fixtures
+  
+  it "should parse all fixture files correctly" do
+    all_rrel_files{|f| Rubyrel.parse_ddl_file(f)}
+  end
   
   it "should propose creating database schemas easily" do
     schema = Rubyrel::DDL.schema(:database) do
