@@ -2,19 +2,16 @@ module Rubyrel
   module DDL
     class Namespace
       
-      # Returns a SQL script for creating the whole schema inside a database
-      def to_create_sql(db)
-        buffer = ""
-        buffer << to_sql_create_namespace(db) << ";\n"
-        relvars.values.each{|n| buffer << n.to_create_sql(db) << ";\n"}
-        buffer
+      # Installs this schema on a given sequel database
+      def install_on(db)
+        db.create_schema(self.name) if db.supports_schemas?
+        relvars.values.each{|r| r.install_on(db)}
       end
       
-      # Returns a SQL script for cleaning the whole schema inside a database
-      def to_clean_sql(db)
-        buffer = ""
-        buffer << to_sql_drop_namespace(db) << ";\n"
-        buffer
+      # Installs this schema on a given sequel database
+      def uninstall_on(db)
+        relvars.values.each{|r| r.uninstall_on(db)}
+        db.drop_schema(self.name) if db.supports_schemas?
       end
       
       # Generates a SQL DDL create namespace using a Sequel Database object
@@ -22,12 +19,14 @@ module Rubyrel
       def to_sql_create_namespace(db)
         db.send(:create_schema_sql, self.name, {})
       end
+      alias :to_create_sql :to_sql_create_namespace
       
       # Generates a SQL DDL drop namespace using a Sequel Database object
       # as dialect helper
       def to_sql_drop_namespace(db)
         db.send(:drop_schema_sql, self.name, {})
       end
+      alias :to_clean_sql :to_sql_drop_namespace
       
     end # class Namespace
   end # module DDL

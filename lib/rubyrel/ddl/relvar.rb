@@ -77,7 +77,10 @@ module Rubyrel
       
       # Mark a given candidate key as being the primary key.
       def set_primary_key(key)
+        @primary_key.primary = false if @primary
         @primary_key = key
+        @primary_key.primary = true
+        @primary_key
       end
       
       # Adds a foreign key

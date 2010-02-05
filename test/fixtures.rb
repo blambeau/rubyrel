@@ -1,6 +1,30 @@
 module Rubyrel
   module Fixtures
     
+    def pgsql_test_connection_info
+      {:host     => 'localhost',
+       :port     => 5432,
+       :database => 'rubyrel_test',
+       :user     => 'rubyrel',
+       :password => 'rubyrel',
+       :encoding => 'utf8'}
+    end
+    
+    def pgsql_test_database
+      ::Sequel.postgres(pgsql_test_connection_info)
+    end
+    
+    def sqlite_test_database
+      here = File.join(File.dirname(__FILE__))
+      ::Sequel.connect("sqlite://rubyrel.db")
+    end
+    
+    # Yields the block with all sequel database that are known
+    def all_sequel_databases
+      yield pgsql_test_database
+      yield sqlite_test_database
+    end
+    
     # Returns the fixtures folder
     def fixtures_folder
       File.expand_path(File.join(File.dirname(__FILE__), 'fixtures'))
@@ -29,6 +53,11 @@ module Rubyrel
     # Decodes a .rrel file whose name is provided
     def rrel_schema(name)
       Rubyrel.parse_ddl_file(rrel_file(name))
+    end
+    
+    # Yields the block with all fixture schemas
+    def all_schema
+      all_rrel_files{|f| yield Rubyrel.parse_ddl_file(f)}
     end
     
   end # module Fixtures
