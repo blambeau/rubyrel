@@ -46,4 +46,27 @@ describe ::Rubyrel::DDL do
     ak.attributes.should == [people.attribute(:name)]
   end
   
+  it "should support naming candidate keys" do
+    schema = Rubyrel::DDL.schema(:database) do
+      open(:public) {
+        relvar(:people) {
+          attribute :id   => Integer
+          attribute :name => String
+          primary_key "primary_key", :id
+          candidate_key "by_name", :name
+        } 
+      }
+    end
+    people = schema.namespace(:public).relvar(:people)
+    pk = people.primary_key
+    pk.name.should == "primary_key"
+    pk = people.candidate_keys["primary_key"]
+    pk.name.should == "primary_key"
+    pk.attributes.should == people.attributes(:id)
+    
+    ak = people.candidate_keys["by_name"]
+    ak.name.should == "by_name"
+    ak.attributes.should == people.attributes(:name)
+  end
+
 end

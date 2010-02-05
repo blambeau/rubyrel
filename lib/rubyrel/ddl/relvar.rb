@@ -66,9 +66,6 @@ module Rubyrel
       # Relation variable name
       attr_reader :name
       
-      # Relation attributes
-      attr_reader :attributes
-      
       # Relation primary key
       attr_reader :primary_key
       
@@ -104,6 +101,12 @@ module Rubyrel
         a = attributes[name]
         raise "No such attribute #{name}" if a.nil? and raise_if_unfound
         a
+      end
+      
+      # Collects some attributes by their name
+      def attributes(*names)
+        return @attributes if names.empty?
+        names.collect{|name| attribute(name, true)}
       end
       
       # Returns a candidate key by its name. If raise_if_unfound is set to true,
