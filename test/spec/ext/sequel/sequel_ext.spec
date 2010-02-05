@@ -17,7 +17,7 @@ describe "Rubyrel sequel extensions" do
     db = ::Sequel::Database.adapter_class('postgres').new
     db.supports_schemas?.should be_true
     got = db.instance_eval {"#{create_schema_sql('test')};#{drop_schema_sql('test')}"}
-    got.should == 'CREATE NAMESPACE "test";DROP NAMESPACE "test"'
+    got.should == 'CREATE SCHEMA "test";DROP SCHEMA "test" CASCADE'
   end
   
 end

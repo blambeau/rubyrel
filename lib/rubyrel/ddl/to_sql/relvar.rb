@@ -44,11 +44,19 @@ module Rubyrel
         gen
       end
       
-      # Converts this relvar definition to a SQL create table statement using a Sequel 
-      # Database object as dialect helper
+      # Generates a SQL DDL create table statement using a Sequel Database 
+      # object as dialect helper
       def to_sql_create_table(db)
         db.send(:create_table_sql, namespace_qualified_name(db), to_sequel_schema_generator(db), {})
       end
+      alias :to_create_sql :to_sql_create_table
+      
+      # Generates a SQL DDL drop table statement using a Sequel Database 
+      # object as dialect helper
+      def to_sql_drop_table(db)
+        db.send(:drop_table_sql, namespace_qualified_name(db))
+      end
+      alias :to_clean_sql :to_sql_drop_table
       
     end # class Relvar
   end # module DDL

@@ -131,5 +131,10 @@ describe ::Rubyrel::DDL do
     fk.attributes.should == mails.attributes(:people)
     fk.target.should == people.primary_key
   end
+  
+  it "should help creating SQL script" do
+    schema = rrel_schema('suppliers_and_parts')
+    schema.to_create_sql(::Sequel::Database.adapter_class('postgres').new).should_not be_nil
+  end
 
 end
