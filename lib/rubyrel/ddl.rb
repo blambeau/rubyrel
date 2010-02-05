@@ -5,6 +5,7 @@ require 'rubyrel/ddl/key'
 require 'rubyrel/ddl/namespace'
 require 'rubyrel/ddl/relvar'
 require 'rubyrel/ddl/schema'
+require 'rubyrel/ddl/to_sql'
 module Rubyrel
   module DDL
     

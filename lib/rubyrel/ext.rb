@@ -1,1 +1,1 @@
-require 'rubyrel/ext/sequel/schema_generator'
+require 'rubyrel/ext/sequel'

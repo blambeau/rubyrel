@@ -13,6 +13,8 @@ describe ::Rubyrel::DDL::Relvar do
     suppliers.to_sql_create_table(db).should_not be_nil
     parts.to_sql_create_table(db).should_not be_nil
     supplies.to_sql_create_table(db).should_not be_nil
+    
+    puts supplies.to_sql_create_table(db)
   end
   
 end
