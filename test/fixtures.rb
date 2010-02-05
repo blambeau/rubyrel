@@ -14,7 +14,7 @@ module Rubyrel
     # Finds a .rrel schema file by name
     def rrel_file(name)
       name = "#{name}.rrel" unless name =~ /\.rrel$/
-      process_files.find{|f| File.basename(f) == name}
+      rrel_files.find{|f| File.basename(f) == name}
     end
     
     # Returns an array containing all .rrel files contained

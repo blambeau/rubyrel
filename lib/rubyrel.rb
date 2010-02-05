@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'sequel'
+require 'rubyrel/ext'
 require 'rubyrel/ddl'
 module Rubyrel
   

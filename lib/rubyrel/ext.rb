@@ -1,0 +1,1 @@
+require 'rubyrel/ext/sequel/schema_generator'

@@ -21,7 +21,8 @@ module Rubyrel
         # Delegated to the current namespace if any
         def method_missing(name, *args, &block)
           if @current_namespace and @current_namespace.respond_to?(name)
-            @current_namespace.send(name, *args, &block)
+            obj = @current_namespace.send(name, *args, &block)
+            obj.__dsl_execute(&block)
           else
             super(name, *args, &block)
           end

@@ -28,6 +28,7 @@ module Rubyrel
       
         # Adds some attribute(s) to the relation variable
         def attribute(mapping)
+          raise "Invalid attribute definition #{mapping}" unless Hash===mapping
           mapping.each_pair{|name, type| @relvar.add_attribute(name, type)}
         end
         
