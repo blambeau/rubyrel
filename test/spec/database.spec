@@ -21,9 +21,23 @@ describe ::Rubyrel::Database do
   
   it "should give access to relation variables through namespace" do
     database = database(@schema, @db)
+
     suppliers = database.base.relvar(:suppliers)
     suppliers.should_not be_nil
     suppliers.is_a?(::Rubyrel::Relvar).should == true
+
+    suppliers = database.base.suppliers
+    suppliers.should_not be_nil
+    suppliers.is_a?(::Rubyrel::Relvar).should == true
+  end
+  
+  it "should allow affecting relation values to relation variables" do
+    database = database(@schema, @db)
+    database.base.suppliers = [
+      {:snumber => 1, :sname => "Jones"},
+      {:snumber => 2, :sname => "Smith"}
+    ]
+    #puts database.base.suppliers.inspect
   end
   
 end

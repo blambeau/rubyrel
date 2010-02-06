@@ -20,7 +20,17 @@ module Rubyrel
     # Populates this namespace
     def populate!
       @relvars = {}
-      namespace_def.each_relvar{|r| relvars[r.name] = Relvar.new(db, self, r)}
+      namespace_def.each_relvar{|r| 
+        relvars[r.name] = Relvar.new(db, self, r)
+        self.instance_eval <<-EOF
+          def #{r.name}
+            relvars[:#{r.name}]
+          end
+          def #{r.name}=(tuples)
+            relvar(:#{r.name}).affect(tuples)
+          end
+        EOF
+      }
     end
     
     # Returns a relation variable by its name. If raise_on_unfound is set to true, raise

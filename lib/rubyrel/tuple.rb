@@ -24,6 +24,11 @@ module Rubyrel
       @physical = physical
     end
     
+    # Returns a Rel literal for this tuple
+    def inspect
+      @physical.inspect
+    end
+    
     private :populate!, :__set_physical
   end # class Tuple
 end # module Rubyrel
