@@ -5,11 +5,11 @@ describe ::Rubyrel::Database do
   before(:all) do
     @schema = rrel_schema('suppliers_and_parts')
     @db = pgsql_test_database
-    @schema.install_on(@db)
+    @schema.install_on!(@db)
   end
   
   after(:all) do
-    @schema.uninstall_on(@db)
+    @schema.uninstall_on!(@db)
   end
   
   it "should give access to namespaces" do
