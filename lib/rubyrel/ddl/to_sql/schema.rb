@@ -13,6 +13,12 @@ module Rubyrel
         db.execute_ddl(buffer)
       end
       
+      # Forces a re-installation a given database
+      def install_on!(db)
+        uninstall_on!(db)
+        install_on(db)
+      end
+      
       # Installs this schema on a given sequel database
       def uninstall_on(db)
         buffer = ""
@@ -20,8 +26,17 @@ module Rubyrel
           sql = o.to_clean_sql(db)
           (buffer << sql << ";\n") unless sql.nil? or sql.empty?
         }
-        #puts buffer
         db.execute_ddl(buffer)
+      end
+      
+      # Forces an installation
+      def uninstall_on!(db)
+        all_objects_in_order.reverse.each{|o| 
+          begin 
+            db.execute_ddl(o.to_clean_sql(db))
+          rescue Sequel::Error
+          end
+        }
       end
       
       # Generates a SQL DDL statement for creating the database, using

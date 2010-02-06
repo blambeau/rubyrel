@@ -12,8 +12,8 @@ module Rubyrel
       # instance.
       def namespace_qualified_name(db)
         return name if forget_namespace?(db)
-        result = "#{namespace.name.to_s}__#{self.name.to_s}"
-        db.supports_schemas? ? result.to_sym : result
+        db.supports_schemas? ? "#{namespace.name.to_s}__#{self.name.to_s}".to_sym :
+                               "#{namespace.name.to_s}$$#{self.name.to_s}".to_sym
       end
 
       # Converts this relvar definition to a sequel schema generator instance
