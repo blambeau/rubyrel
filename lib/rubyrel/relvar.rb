@@ -35,6 +35,46 @@ module Rubyrel
       end
     end
     
+    # Clears the relation variable
+    def empty!
+      underlying_table.delete
+    end
+    
+    # Inserts some tuples
+    def <<(tuples)
+      case tuples
+        when Array
+          underlying_table.multi_insert(tuples)
+        when Hash
+          underlying_table.insert(tuples)
+        else
+          raise ArgumentError, "Unable to insert #{tuples} inside a relation variable"
+      end
+    end
+    
+    # Returns true if this relvar contains a given tuple, false otherwise
+    def contains?(tuple)
+      case tuple
+        when Hash
+          eql_hash = {}
+          relvar_def.primary_key.attributes.each{|a| eql_hash[a.name] = tuple[a.name]}
+          inside_tuple = underlying_table.filter(eql_hash).first
+          return inside_tuple === tuple
+        else
+          raise ArgumentError, "Unable to check inclusion of #{tuple} inside a relation variable"
+      end
+    end
+    
+    # Checks equality with a given value
+    def ==(value)
+      case value
+        when Array
+          value.size == underlying_table.count && value.all?{|h| self.contains?(h)}
+        else
+          raise ArgumentError, "Unable to compare #{value} to a relation variable"
+      end
+    end
+    
     # Inspects this relvar (returns a Rel code with the content of the relvar)
     def inspect
       collect{|tuple| tuple.inspect}.join("\n")

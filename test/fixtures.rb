@@ -65,5 +65,13 @@ module Rubyrel
       ::Rubyrel::Database.new(schema, handler)
     end
     
+    # Returns a database instance of suppliers-and-parts on a sqlite handler
+    def suppliers_and_parts_sqlite_db
+      schema = rrel_schema("suppliers_and_parts")
+      handler = ::Sequel.connect("sqlite://rubyrel.db")
+      schema.install_on!(handler)
+      ::Rubyrel::Database.new(schema, handler)
+    end
+    
   end # module Fixtures
 end # module Rubyrel
