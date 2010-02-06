@@ -60,5 +60,10 @@ module Rubyrel
       all_rrel_files{|f| yield Rubyrel.parse_ddl_file(f)}
     end
     
+    # Creates a Rubyrel database instance
+    def database(schema, handler)
+      ::Rubyrel::Database.new(schema, handler)
+    end
+    
   end # module Fixtures
 end # module Rubyrel

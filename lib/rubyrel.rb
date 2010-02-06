@@ -2,6 +2,10 @@ require 'rubygems'
 require 'sequel'
 require 'rubyrel/ext'
 require 'rubyrel/ddl'
+require 'rubyrel/database'
+require 'rubyrel/namespace'
+require 'rubyrel/relvar'
+require 'rubyrel/tuple'
 module Rubyrel
   
   # Current Rubyrel version

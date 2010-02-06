@@ -9,6 +9,9 @@ module Rubyrel
       # Relation variable name
       attr_reader :name
       
+      # Relation attributes
+      attr_reader :attributes
+      
       # Relation primary key
       attr_reader :primary_key
       
@@ -88,6 +91,11 @@ module Rubyrel
         fk = ForeignKey.new(self, name, attributes, target)
         foreign_keys[name] = fk
         fk
+      end
+      
+      # Yields the block with each attribute in turn
+      def each_attribute
+        attributes.each_pair{|name,a| yield(a) if block_given?}
       end
       
       # Yields the block with each candidate key in turn
