@@ -49,6 +49,7 @@ describe ::Rubyrel::Relvar do
     @suppliers.should == [{:snumber => 1, :sname => "Jones"}, {:snumber => 2, :sname => "Smith"}]
 
     @suppliers.empty!
+    @suppliers.should == []
     @suppliers << [{:snumber => 1, :sname => "Jones"}, {:snumber => 2, :sname => "Smith"}]
     @suppliers.should == [{:snumber => 1, :sname => "Jones"}, {:snumber => 2, :sname => "Smith"}]
   end
