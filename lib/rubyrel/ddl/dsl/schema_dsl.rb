@@ -8,9 +8,10 @@ module Rubyrel
         include DSLCommons
         
         # Creates a dsl instance and executes the block in its context 
-        def initialize(schema, &block)
+        def initialize(schema, file = nil, &block)
           @schema = schema
-          instance_eval(&block) if block
+          @file = file
+          instance_exec(schema, &block) if block
         end
         
         # Returns the main object populated by this DSL
@@ -18,6 +19,11 @@ module Rubyrel
           @schema
         end
         
+        # Returns the current schema under construction
+        def __schema
+          @schema
+        end
+      
         # Delegated to the current namespace if any
         def method_missing(name, *args, &block)
           if @current_namespace and @current_namespace.respond_to?(name)
@@ -26,6 +32,12 @@ module Rubyrel
           else
             super(name, *args, &block)
           end
+        end
+        
+        # Loads an extension
+        def extension(name)
+          extension_file = File.join(File.dirname(@file), "#{name}.rel")
+          instance_eval(File.read(extension_file))
         end
       
         # Opens a namespace, creating an empty one if not already created.

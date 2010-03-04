@@ -2,6 +2,15 @@ module Rubyrel
   module DDL
     module DSLCommons
       
+      # Lookup on namespaces 
+      def method_missing(name, *args, &block)
+        if __schema.namespaces.has_key?(name)
+          __schema.namespaces[name]
+        else
+          super(name, *args, &block)
+        end
+      end
+      
       # # Returns a relation variable by its name
       # def relvar(name)
       #   case main_object = __main_object

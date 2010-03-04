@@ -18,6 +18,11 @@ module Rubyrel
         def __main_object
           @namespace
         end
+        
+        # Returns the current schema under construction
+        def __schema
+          @namespace.schema
+        end
       
         # Creates or reopens a relation variable definition
         # and executes the block inside its DSL context

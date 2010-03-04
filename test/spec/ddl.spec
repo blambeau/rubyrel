@@ -10,8 +10,8 @@ describe ::Rubyrel::DDL do
     schema = Rubyrel::DDL.schema(:database) do
       namespace(:public) {
         relvar(:people) {
-          attribute :id   => Integer
-          attribute :name => String
+          attribute :id, Integer
+          attribute :name, String
           primary_key :id
           candidate_key :name
         } 
@@ -55,8 +55,8 @@ describe ::Rubyrel::DDL do
     schema = Rubyrel::DDL.schema(:database) do
       namespace(:public) {
         relvar(:people) {
-          attribute :id   => Integer
-          attribute :name => String
+          attribute :id, Integer
+          attribute :name, String
           primary_key "primary_key", :id
           candidate_key "by_name", :name
         } 
@@ -78,8 +78,8 @@ describe ::Rubyrel::DDL do
     schema = Rubyrel::DDL.schema(:database) do
       namespace(:public) {
         relvar(:people) {
-          attribute :id   => Integer
-          attribute :name => String
+          attribute :id, Integer
+          attribute :name, String
           primary_key :id, :name
         }
       }
@@ -93,8 +93,8 @@ describe ::Rubyrel::DDL do
     schema = Rubyrel::DDL.schema(:database) do
       namespace(:public) {
         relvar(:people) {
-          attribute :id   => Integer
-          attribute :name => String
+          attribute :id, Integer
+          attribute :name, String
           primary_key "pk", :id, :name
         }
       }
@@ -109,14 +109,14 @@ describe ::Rubyrel::DDL do
     schema = Rubyrel::DDL.schema(:database) do
       namespace(:public) {
         relvar(:people) {
-          attribute :id   => Integer
-          attribute :name => String
+          attribute :id, Integer
+          attribute :name, String
           primary_key :id
           candidate_key :name
         }
         relvar(:mails) {
-          attribute :people => Integer
-          attribute :mail   => String
+          attribute :people, Integer
+          attribute :mail, String
           primary_key :people, :mail
           foreign_key :people => relvar(:people)
         }

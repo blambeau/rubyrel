@@ -18,14 +18,14 @@ module Rubyrel
   QUALIFIED_NAMED_REGEX = /^([a-z][a-z0-9_]*)\.([a-z][a-z0-9_]*)$/
   
   # Parses a DDL string
-  def parse_ddl(str)
-    Rubyrel::DDL.instance_eval(str)
+  def parse_ddl(str, file = nil)
+    Rubyrel::DDL.execute(str, file)
   end
   module_function :parse_ddl
   
   # Parses a DDL file
   def parse_ddl_file(file)
-    parse_ddl(File.read(file))
+    parse_ddl(File.read(file), file)
   end
   module_function :parse_ddl_file
   

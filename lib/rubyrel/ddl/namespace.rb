@@ -33,15 +33,13 @@ module Rubyrel
       end
       alias :each_relvar :each
       
-      # Adds a relvar to this namespace
-      def add_relvar(relvar)
-        @relvars[relvar.name] = relvar
-      end
-      
       # Returns a relvar by name, creating an empty one if not found
       # and requested
       def relvar(name, create_empty = true)
-        relvars[name] = Relvar.new(self,name) if not(relvars.has_key?(name)) and create_empty
+        if not(relvars.has_key?(name)) and create_empty
+          relvars[name] = Relvar.new(self,name) 
+          instance_eval "def #{name}(); relvars[:#{name}]; end"
+        end
         relvars[name]
       end
       

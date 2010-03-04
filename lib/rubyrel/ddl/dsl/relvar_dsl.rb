@@ -19,6 +19,11 @@ module Rubyrel
           @relvar
         end
         
+        # Returns the current schema under construction
+        def __schema
+          @relvar.namespace.schema
+        end
+      
         # Finds a relvar by name
         def relvar(name)
           r = @relvar.namespace.relvar(name, false)
@@ -27,9 +32,9 @@ module Rubyrel
         end
       
         # Adds some attribute(s) to the relation variable
-        def attribute(mapping)
-          raise "Invalid attribute definition #{mapping}" unless Hash===mapping
-          mapping.each_pair{|name, type| @relvar.add_attribute(name, type)}
+        def attribute(name, domain, options = {})
+          raise "Invalid attribute definition #{name}" unless Symbol===name and Class===domain
+          @relvar.add_attribute(name, domain, options)
         end
         
         # Adds an candidate key on given attributes

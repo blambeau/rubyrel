@@ -17,8 +17,8 @@ module Rubyrel
       end
       
       # Executes a DSL value on this schema
-      def __dsl_execute(&block)
-        DSL.new(self, &block)
+      def __dsl_execute(file = nil, &block)
+        DSL.new(self, file, &block)
       end
       
       # Yields the block with each namespace

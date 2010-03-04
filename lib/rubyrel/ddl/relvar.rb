@@ -68,8 +68,8 @@ module Rubyrel
       ############################################################### Modification utilities
       
       # Adds an attribute to the relation variable
-      def add_attribute(name, domain)
-        a = Attribute.new(self, name, domain)
+      def add_attribute(name, domain, options = {})
+        a = Attribute.new(self, name, domain, options)
         attributes[name] = a
       end
       
