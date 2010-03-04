@@ -22,5 +22,15 @@ module Sequel
       "DROP SCHEMA #{quote_identifier(name)}"
     end
     
+    # Recognizes the Boolean class
+    def type_literal_generic_boolean(column)
+      :boolean
+    end
+    
+    # Recognizes the Serial class
+    def type_literal_generic_serial(column)
+      :integer
+    end
+    
   end
 end
