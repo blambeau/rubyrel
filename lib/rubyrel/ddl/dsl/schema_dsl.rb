@@ -11,7 +11,11 @@ module Rubyrel
         def initialize(schema, file = nil, &block)
           @schema = schema
           @file = file
-          instance_exec(schema, &block) if block
+          if block 
+            instance_eval(&block)
+          elsif file
+            instance_eval(File.read(file))
+          end
         end
         
         # Returns the main object populated by this DSL

@@ -1,28 +1,25 @@
-schema(:suppliers_and_parts) do
-  namespace(:base)
+namespace(:base)
 
-  # Suppliers relation variable
-  relvar(:suppliers) {
-    attribute :snumber, Integer
-    attribute :sname, String
-    primary_key :snumber
-  }
-  
-  # Parts relation variable
-  relvar(:parts) {
-    attribute :pnumber, Integer
-    attribute :pname, String
-    primary_key :pnumber
-  }
-  
-  # Which suppliers supplies which part
-  relvar(:supplies) {
-    attribute :supplier, Integer
-    attribute :part, Integer
-    attribute :quantity, Integer
-    primary_key :supplier, :part
-    foreign_key :supplier => relvar(:suppliers)
-    foreign_key :part     => relvar(:parts)
-  }
-  
-end
+# Suppliers relation variable
+relvar(:suppliers) {
+  attribute :snumber, Integer
+  attribute :sname, String
+  primary_key :snumber
+}
+
+# Parts relation variable
+relvar(:parts) {
+  attribute :pnumber, Integer
+  attribute :pname, String
+  primary_key :pnumber
+}
+
+# Which suppliers supplies which part
+relvar(:supplies) {
+  attribute :supplier, Integer
+  attribute :part, Integer
+  attribute :quantity, Integer
+  primary_key :supplier, :part
+  foreign_key :supplier => relvar(:suppliers)
+  foreign_key :part     => relvar(:parts)
+}

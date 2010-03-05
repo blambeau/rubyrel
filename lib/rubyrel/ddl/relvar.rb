@@ -32,6 +32,17 @@ module Rubyrel
         @foreign_keys = {}
       end
       
+      # Converts to a catalog tuple
+      def __to_catalog_tuple
+        {:namespace => namespace.name.to_s, :name => name.to_s}
+      end
+      
+      # Saves this schema inside a relational database      
+      def __save_on_database(db, t)
+        t.rubyrel_catalog.base_relvars << __to_catalog_tuple
+        each_attribute{|a| a.__save_on_database(db, t)}
+      end
+      
       # Executes a DSL value on this namespace
       def __dsl_execute(&block)
         DSL.new(self, &block)

@@ -20,6 +20,15 @@ module Rubyrel
       def __dsl_execute(file = nil, &block)
         DSL.new(self, file, &block)
       end
+
+      # Saves this schema inside a relational database      
+      def __save_on_database(db)
+        db.transaction{|t| 
+          all_objects_in_order.each {|obj|
+            obj.__save_on_database(db, t)
+          }
+        }
+      end
       
       # Yields the block with each namespace
       def each

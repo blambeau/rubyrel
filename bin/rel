@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+#
+#  RubyRel: Providing relational tools to ruby
+#        (see lib/rubyrel/rubyrel.rb for more information)
+#
+#  Copyright (c) 2010 Bernard Lambeau
+#  Released under a MIT or Ruby licence
+#
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'rubyrel'
+require 'rubyrel/commands'
+
+begin
+  r = Rubyrel::Commands::Rel.new
+  r.run __FILE__, ARGV
+rescue Interrupt => e
+  $stderr.puts
+  $stderr.puts "Interrupted"
+  raise e
+rescue OptionParser::ParseError => e
+  $stderr.puts e.message
+  raise e
+rescue => e
+  $stderr.puts e.message
+  raise e
+end

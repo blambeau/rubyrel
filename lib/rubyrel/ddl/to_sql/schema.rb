@@ -9,7 +9,8 @@ module Rubyrel
         db.execute_ddl(ddl)
       end
       
-      # Installs this schema on a given sequel database
+      # Installs this schema on a given sequel database. Returns the database
+      # instance.
       def install_on(db, options = {})
         buffer = ""
         all_objects_in_order.each{|o| 
@@ -17,15 +18,19 @@ module Rubyrel
           (buffer << sql << ";\n") unless sql.nil? or sql.empty?
         }
         execute_ddl(db, buffer, options)
+        db
       end
       
-      # Forces a re-installation a given database
+      # Forces a re-installation a given database. Returns the database
+      # instance.
       def install_on!(db, options = {})
         uninstall_on!(db, options)
         install_on(db, options)
+        db
       end
       
-      # Installs this schema on a given sequel database
+      # Installs this schema on a given sequel database. Returns the database
+      # instance.
       def uninstall_on(db, options = {})
         buffer, sql = "", ""
         all_objects_in_order.reverse.each{|o| 
@@ -33,9 +38,11 @@ module Rubyrel
           (buffer << sql << ";\n") unless sql.nil? or sql.empty?
         }
         execute_ddl(db, buffer, options)
+        db
       end
       
-      # Forces an installation
+      # Forces an installation. Returns the database
+      # instance.
       def uninstall_on!(db, options = {})
         sql = ""
         all_objects_in_order.reverse.each{|o| 
@@ -46,6 +53,7 @@ module Rubyrel
             puts "Ignoring: #{ex.message}" if options[:verbose]
           end
         }
+        db
       end
       
       # Generates a SQL DDL statement for creating the database, using

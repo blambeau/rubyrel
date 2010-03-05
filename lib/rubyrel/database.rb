@@ -30,6 +30,10 @@ module Rubyrel
       }
     end
     
+    def transaction 
+      yield self
+    end
+    
     # Returns a namespace by its name. If raise_on_unfound is set to true, raise
     # an error if the namespace cannot be found. Returns nil otherwise.
     def namespace(name, raise_on_unfound = true)

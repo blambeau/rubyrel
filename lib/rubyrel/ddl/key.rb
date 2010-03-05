@@ -24,6 +24,26 @@ module Rubyrel
         @primary = false
       end
       
+      # Converts this key definition as a rel catalog tuple
+      def __to_catalog_tuple
+        {:namespace  => relvar.namespace.name.to_s, 
+         :relvar     => relvar.name.to_s, 
+         :name       => name.to_s, 
+         :primary    => primary}
+      end
+
+      # Saves this namespace inside a relational database      
+      def __save_on_database(db, t)
+        tuple = __to_catalog_tuple
+        t.rubyrel_catalog.candidate_keys << tuple
+        t.rubyrel_catalog.candidate_key_attributes << attributes.collect{|a|
+          {:namespace  => relvar.namespace.name.to_s, 
+           :relvar     => relvar.name.to_s, 
+           :key        => name.to_s,
+           :attribute  => a.name.to_s} 
+        }
+      end
+
       # Is this key a primary key?
       def primary?
         @primary

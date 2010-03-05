@@ -22,6 +22,16 @@ module Rubyrel
         @relvars = {}
       end
       
+      # Converts to a catalog tuple
+      def __to_catalog_tuple
+        {:name => name.to_s}
+      end
+      
+      # Saves this namespace inside a relational database      
+      def __save_on_database(db, t)
+        t.rubyrel_catalog.namespaces << __to_catalog_tuple
+      end
+      
       # Executes a DSL value on this namespace
       def __dsl_execute(&block)
         DSL.new(self, &block)

@@ -37,7 +37,10 @@ module Rubyrel
           exit("Unable to find #{schema_file}")  
         end
         schema = Rubyrel::parse_ddl_file(schema_file)
-        schema.install_on!(create_database(schema), {:verbose => verbose})
+        schema = Rubyrel::extend_schema(schema, Rubyrel::RUBYREL_CATALOG_FILE)
+        db = schema.install_on!(create_database(schema), {:verbose => verbose})
+        db = Rubyrel::Database.new(schema, db)
+        schema.__save_on_database(db)
       end
 
     end # class Check

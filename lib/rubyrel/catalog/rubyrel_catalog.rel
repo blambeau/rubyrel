@@ -1,0 +1,57 @@
+namespace(:rubyrel_catalog)
+relvar(:namespaces) {
+  attribute :name, String
+  primary_key :name
+}
+relvar(:base_relvars) {
+  attribute :namespace, String
+  attribute :name, String
+  primary_key :namespace, :name
+  foreign_key :namespace => rubyrel_catalog.namespaces
+}
+relvar(:base_relvar_attributes) {
+  attribute :namespace, String
+  attribute :relvar, String
+  attribute :name, String
+  attribute :domain, String
+  attribute :default, String
+  primary_key :namespace, :relvar, :name
+  foreign_key [:namespace, :relvar] => rubyrel_catalog.base_relvars
+}
+relvar(:candidate_keys) {
+  attribute :namespace, String
+  attribute :relvar, String
+  attribute :name, String
+  attribute :primary, Boolean
+  primary_key :namespace, :relvar, :name
+  foreign_key [:namespace, :relvar] => rubyrel_catalog.base_relvars
+}
+relvar(:candidate_key_attributes) {
+  attribute :namespace, String
+  attribute :relvar, String
+  attribute :key, String
+  attribute :attribute, String
+  primary_key :namespace, :relvar, :key, :attribute
+  foreign_key [:namespace, :relvar, :key] => rubyrel_catalog.candidate_keys
+  foreign_key [:namespace, :relvar, :attribute] => rubyrel_catalog.base_relvar_attributes
+}
+relvar(:foreign_keys) {
+  attribute :namespace, String
+  attribute :relvar, String
+  attribute :name, String
+  attribute :target_namespace, String
+  attribute :target_relvar, String
+  attribute :target_key, String
+  primary_key :namespace, :relvar, :name
+  foreign_key [:namespace, :relvar] => rubyrel_catalog.base_relvars
+  foreign_key [:target_namespace, :target_relvar, :target_key] => rubyrel_catalog.candidate_keys
+}
+relvar(:foreign_key_attributes) {
+  attribute :namespace, String
+  attribute :relvar, String
+  attribute :key, String
+  attribute :attribute, String
+  primary_key :namespace, :relvar, :key, :attribute
+  foreign_key [:namespace, :relvar, :key] => rubyrel_catalog.foreign_keys
+  foreign_key [:namespace, :relvar, :attribute] => rubyrel_catalog.base_relvar_attributes
+}

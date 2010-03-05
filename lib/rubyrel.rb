@@ -17,16 +17,25 @@ module Rubyrel
   # Regular expression for checking all named things
   QUALIFIED_NAMED_REGEX = /^([a-z][a-z0-9_]*)\.([a-z][a-z0-9_]*)$/
   
-  # Parses a DDL string
-  def parse_ddl(str, file = nil)
-    Rubyrel::DDL.execute(str, file)
+  # Location of the catalog rel file
+  RUBYREL_CATALOG_FILE = File.join(File.dirname(__FILE__), 'rubyrel', 'catalog', 'rubyrel_catalog.rel')
+  
+  # Parses and executes a schema definition given by a block
+  def parse_ddl(name, &block) 
+    Rubyrel::DDL.schema(name, &block)
   end
   module_function :parse_ddl
   
   # Parses a DDL file
   def parse_ddl_file(file)
-    parse_ddl(File.read(file), file)
+    Rubyrel::DDL.schema(File.basename(file), file)
   end
   module_function :parse_ddl_file
+  
+  # Extends a schema with a file or a block
+  def extend_schema(schema, file = nil, &block)
+    Rubyrel::DDL::extend_schema(schema, file, &block)
+  end
+  module_function :extend_schema
   
 end
