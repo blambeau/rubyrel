@@ -10,6 +10,9 @@ module Rubyrel
       # Show stack traces?
       attr_accessor :trace
       
+      # Physical handler's uri
+      attr_accessor :handler_uri
+      
       # Creates an empty command instance
       def initialize
         @verbose = false
@@ -31,6 +34,10 @@ module Rubyrel
     
           add_options(opt)
 
+          opt.on("--handler=URI", "-h", "URI of the physical handler to use") do |value|
+            self.handler_uri = value
+          end
+        
           opt.on("--trace", "Display stack trace on error?") do |value|
             @trace = true
           end
@@ -101,6 +108,13 @@ module Rubyrel
       # Checks that the command may be safely executed!
       def check_command_policy
         raise "Command.check_command_policy should be overriden"
+      end
+      
+      # Creates a Sequel database instance for a given schema
+      def connect_database
+        raise "Missing handler" unless handler_uri
+        info("Connecting with #{handler_uri} as physical handler") if verbose
+        sequel_db = ::Sequel.connect(handler_uri)
       end
       
       # Runs the sub-class defined command

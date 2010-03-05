@@ -2,14 +2,8 @@ module Rubyrel
   module Commands
     class Create < Rubyrel::Commands::Command
       
-      # Physical handler's uri
-      attr_accessor :handler_uri
-      
       # Contribute to options
       def add_options(opt)
-        opt.on("--handler=URI", "-h", "URI of the physical handler to use") do |value|
-          self.handler_uri = value
-        end
       end
       
       # Returns the command banner
