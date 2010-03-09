@@ -32,6 +32,15 @@ module Rubyrel
         t.rubyrel_catalog.namespaces << __to_catalog_tuple
       end
       
+      # Loads this schema from a relational database
+      def __load_from_database(db)
+        table = db[Rubyrel::DDL::Naming::relvar_qualified_name(db, :rubyrel_catalog, :base_relvars)]
+        table.filter(:namespace => name.to_s).each do |t|
+          relvar(t[:name].to_sym, true)
+        end
+        each_relvar{|r| r.__load_from_database(db)}
+      end
+      
       # Executes a DSL value on this namespace
       def __dsl_execute(&block)
         DSL.new(self, &block)

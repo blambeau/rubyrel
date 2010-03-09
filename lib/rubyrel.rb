@@ -28,7 +28,7 @@ module Rubyrel
   
   # Parses a DDL file
   def parse_ddl_file(file)
-    Rubyrel::DDL.schema(File.basename(file), file)
+    Rubyrel::DDL.schema(File.basename(file, '.rel'), file)
   end
   module_function :parse_ddl_file
   

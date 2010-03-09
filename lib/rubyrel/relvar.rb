@@ -76,9 +76,13 @@ module Rubyrel
     end
     
     # Inspects this relvar (returns a Rel code with the content of the relvar)
-    def inspect
-      collect{|tuple| tuple.inspect}.join("\n")
+    def to_tutorial_d
+      buffer = relvar_def.to_tutorial_d << "{\n"
+      each{|t| buffer << "  " << t.to_tutorial_d(relvar_def) << "\n"}
+      buffer << "}"
+      buffer
     end
+    alias :inspect :to_tutorial_d
     
     # Returns the underlying table as a Sequel::Dataset object
     def underlying_table

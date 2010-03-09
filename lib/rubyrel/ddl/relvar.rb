@@ -43,6 +43,17 @@ module Rubyrel
         each_attribute{|a| a.__save_on_database(db, t)}
       end
       
+      # Loads this schema from a relational database
+      def __load_from_database(db)
+        table = db[Rubyrel::DDL::Naming::relvar_qualified_name(db, :rubyrel_catalog, :base_relvar_attributes)]
+        table.filter(:namespace => namespace.name.to_s, :relvar => name.to_s).each do |t|
+          name = t[:name].to_sym
+          domain = Kernel.eval(t[:domain])
+          options = {:default => t[:default]}
+          add_attribute(name, domain, options)
+        end
+      end
+      
       # Executes a DSL value on this namespace
       def __dsl_execute(&block)
         DSL.new(self, &block)
@@ -117,6 +128,12 @@ module Rubyrel
       # Yields the block with each foreign key in turn
       def each_foreign_key
         foreign_keys.each_pair{|name,k| yield(k) if block_given?}
+      end
+      
+      # Converts to a tutorial D statement
+      def to_tutorial_d
+        heading = attributes.values.collect{|a| "#{a.name} #{a.domain}"}.join(', ')
+        "RELATION{#{heading}}"
       end
       
     end # class Relvar

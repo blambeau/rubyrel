@@ -30,6 +30,14 @@ module Rubyrel
         }
       end
       
+      # Loads this schema from a relational database
+      def __load_from_database(db)
+        db[Rubyrel::DDL::Naming::relvar_qualified_name(db, :rubyrel_catalog, :namespaces)].each do |t|
+          namespace(t[:name].to_sym, true)
+        end
+        each_namespace{|n| n.__load_from_database(db)}
+      end
+      
       # Yields the block with each namespace
       def each
         namespaces.each_pair{|name, n| yield n if block_given?}

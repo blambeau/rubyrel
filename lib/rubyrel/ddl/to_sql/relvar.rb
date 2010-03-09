@@ -2,18 +2,11 @@ module Rubyrel
   module DDL
     class Relvar
       
-      # Checks if the namespace may be forgotten or not
-      def forget_namespace?(db) 
-        (namespace.name == :default || db.default_schema.to_s == namespace.name.to_s)
-      end
-      
       # Converts a relvar name to a relvar name qualified by
       # its namespace, acording to abilities of a Sequel Database
       # instance.
       def namespace_qualified_name(db)
-        return name if forget_namespace?(db)
-        db.supports_schemas? ? "#{namespace.name.to_s}__#{self.name.to_s}".to_sym :
-                               "#{namespace.name.to_s}$$#{self.name.to_s}".to_sym
+        Rubyrel::DDL::Naming::relvar_qualified_name(db, namespace.name, name)
       end
 
       # Converts this relvar definition to a sequel schema generator instance
