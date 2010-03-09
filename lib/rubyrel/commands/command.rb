@@ -32,12 +32,12 @@ module Rubyrel
           opt.separator nil
           opt.separator "Options:"
     
-          add_options(opt)
-
           opt.on("--handler=URI", "-h", "URI of the physical handler to use") do |value|
             self.handler_uri = value
           end
         
+          add_options(opt)
+
           opt.on("--trace", "Display stack trace on error?") do |value|
             @trace = true
           end

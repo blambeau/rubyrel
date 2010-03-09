@@ -1,0 +1,22 @@
+namespace(:default)
+
+relvar(:suppliers) {
+  attribute :id,     String
+  attribute :name,   String
+  attribute :status, Integer
+  attribute :city,   String
+  primary_key :id
+}
+relvar(:parts) {
+  attribute :id,     String
+  attribute :name,   String
+  attribute :color,  String
+  attribute :weight, Float
+  attribute :city,   String
+  primary_key :id
+}
+relvar(:supplies) {
+  attribute :supplier, String
+  attribute :part,     String
+  attribute :quantity, Integer
+}

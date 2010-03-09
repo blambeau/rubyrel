@@ -45,8 +45,14 @@ module Rubyrel
         
       end # class Interpretor
 
+      # File to execute on the engine  
+      attr_accessor :file_execution
+        
       # Contribute to options
       def add_options(opt)
+        opt.on("--file=FILE", "-f", "Executes a given file on the database") do |value|
+          self.file_execution = value
+        end
       end
       
       # Returns the command banner
@@ -65,7 +71,11 @@ module Rubyrel
         schema = Rubyrel::DDL::Schema.new(:noname)
         schema.__load_from_database(sequel_db)
         rubyrel_db = Rubyrel::Database.new(schema, sequel_db)
-        Interpretor.new(rubyrel_db).execute
+        if file_execution
+          rubyrel_db.instance_eval(File.read(file_execution))
+        else
+          Interpretor.new(rubyrel_db).execute
+        end
       end
 
     end # class Check
