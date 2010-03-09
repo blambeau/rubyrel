@@ -30,6 +30,11 @@ module Rubyrel
       @physical.inspect
     end
     
+    # Returns this tuple as a Hash
+    def to_h
+      @physical.dup
+    end
+    
     # Converts this tuple to a tutorial D statement
     def to_tutorial_d(relvar_def)
       values = []
