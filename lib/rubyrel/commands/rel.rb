@@ -19,6 +19,13 @@ module Rubyrel
             case cmd
               when '\q'
                 return
+              when /^([a-z_]+)$/
+                relvar = $1.to_sym
+                if db.respond_to?(:default) and db.default.respond_to?(relvar)
+                  puts db.default.send(relvar).to_tutorial_d
+                else
+                  puts "Unknown relvar #{relvar}"
+                end
               when /^([a-z_]+)\.([a-z_]+)$/
                 namespace, relvar = $1.to_sym, $2.to_sym
                 if db.respond_to?(namespace)
