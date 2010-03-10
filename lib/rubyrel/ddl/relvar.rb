@@ -49,7 +49,7 @@ module Rubyrel
         table.filter(:namespace => namespace.name.to_s, :relvar => name.to_s).each do |t|
           name = Symbol.__rubyrel_from_physical_value(t[:name])
           domain = Kernel.eval(t[:domain])
-          options = {:default => domain.__rubyrel_from_physical_value(t[:default])}
+          options = {:default => t[:default].nil? ? nil : Object.__rubyrel_from_physical_value(t[:default])}
           add_attribute(name, domain, options)
         end
       end
@@ -76,7 +76,7 @@ module Rubyrel
           value = hash[a.name]
           logical_tuple[a.name] = value.nil? ? nil : a.domain.__rubyrel_from_physical_value(value) 
         }
-        physical_tuple
+        logical_tuple
       end
       
       ############################################################### Query utilities

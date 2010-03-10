@@ -14,7 +14,7 @@ relvar(:base_relvar_attributes) {
   attribute :relvar, Symbol
   attribute :name, Symbol
   attribute :domain, String
-  attribute :default, String
+  attribute :default, Object
   primary_key :namespace, :relvar, :name
   foreign_key [:namespace, :relvar] => rubyrel_catalog.base_relvars
 }

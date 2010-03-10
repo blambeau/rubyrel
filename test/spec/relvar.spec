@@ -54,4 +54,10 @@ describe ::Rubyrel::Relvar do
     @suppliers.should == [{:snumber => 1, :sname => "Jones"}, {:snumber => 2, :sname => "Smith"}]
   end
 
+  it "should handle default values correctly" do
+    @suppliers.empty!
+    @suppliers << {:sname => "Jones"}
+    @suppliers.should == [{:snumber => 0, :sname => "Jones"}]
+  end
+  
 end

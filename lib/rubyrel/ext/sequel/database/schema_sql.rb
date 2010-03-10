@@ -32,5 +32,10 @@ module Sequel
       :string
     end
     
+    # Recognizes the Object class
+    def type_literal_generic_object(column)
+      :string
+    end
+    
   end
 end

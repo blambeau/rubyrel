@@ -11,9 +11,9 @@ class Boolean
   def self.__rubyrel_from_physical_value(physical_value)
     return physical_value if physical_value==true or physical_value==false
     case physical_value
-      when '0', 'false'
+      when 0, '0', 'false', 'f'
         false
-      when '1', 'true'
+      when 1, '1', 'true', 't'
         true
       else
         raise Rubyrel::PhysicalRepresentationError, "Unable to convert #{physical_value} to a logical/ruby value"

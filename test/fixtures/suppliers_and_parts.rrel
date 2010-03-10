@@ -2,7 +2,7 @@ namespace(:base)
 
 # Suppliers relation variable
 relvar(:suppliers) {
-  attribute :snumber, Integer
+  attribute :snumber, Integer, {:default => 0}
   attribute :sname,   String
   primary_key :snumber
 }

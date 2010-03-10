@@ -34,7 +34,7 @@ module Rubyrel
       case value
         when Array
           underlying_table.delete
-          value.each{|v| underlying_table.insert(v)}
+          self << value
         else
           raise ArgumentError, "Unable to affect #{value} to a relation variable"
       end
@@ -49,7 +49,7 @@ module Rubyrel
     def <<(tuples)
       case tuples
         when Array
-          underlying_table.multi_insert(tuples.collect{|t| relvar_def.__to_physical_tuple(t)})
+          underlying_table.multi_insert(tuples.collect{|t| relvar_def.__to_physical_tuple(t) })
         when Hash
           underlying_table.insert(relvar_def.__to_physical_tuple(tuples))
         else
