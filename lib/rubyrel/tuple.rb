@@ -38,7 +38,7 @@ module Rubyrel
     # Converts this tuple to a tutorial D statement
     def to_tutorial_d(relvar_def)
       values = []
-      @relvar_def.each_attribute{|a| values << "#{a.name} '#{self.send(a.name)}'"}
+      @relvar_def.each_attribute{|a| values << "#{a.name} #{self.send(a.name).inspect}"}
       "TUPLE{#{values.join(', ')}}"
     end
     

@@ -23,6 +23,11 @@ module Rubyrel
       relvar_def.attribute_names
     end
     
+    # Returns the number of tuples in the relation variable
+    def tuple_count
+      underlying_table.count
+    end
+    
     # Yields the block with each tuple inside the relvar
     def each
       return unless block_given?
