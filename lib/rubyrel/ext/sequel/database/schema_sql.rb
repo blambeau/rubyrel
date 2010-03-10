@@ -27,9 +27,9 @@ module Sequel
       :boolean
     end
     
-    # Recognizes the Serial class
-    def type_literal_generic_serial(column)
-      :integer
+    # Recognizes the Symbol class
+    def type_literal_generic_symbol(column)
+      :string
     end
     
   end

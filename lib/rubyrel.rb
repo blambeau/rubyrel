@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sequel'
+require 'rubyrel/errors'
 require 'rubyrel/ext'
 require 'rubyrel/ddl'
 require 'rubyrel/database'
@@ -37,5 +38,14 @@ module Rubyrel
     Rubyrel::DDL::extend_schema(schema, file, &block)
   end
   module_function :extend_schema
+  
+  # Connect a database given a physical handler
+  def connect(handler) 
+    sequel_db = ::Sequel.connect(handler)
+    schema = Rubyrel::DDL::Schema.new(:noname)
+    schema.__load_from_database(sequel_db)
+    ::Rubyrel::Database.new(schema, sequel_db)
+  end
+  module_function :connect
   
 end

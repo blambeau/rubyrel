@@ -30,8 +30,11 @@ module Rubyrel
       }
     end
     
-    def transaction 
-      yield self
+    # Encapsultes block execution inside a transaction
+    def transaction
+      handler.transaction do 
+        yield self
+      end
     end
     
     # Returns a namespace by its name. If raise_on_unfound is set to true, raise

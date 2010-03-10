@@ -13,7 +13,7 @@ module Rubyrel
       # using a Sequel Database helper for SQL dialects.
       def to_sequel_schema_generator(db)
         gen = ::Sequel::Schema::Generator.new(db)
-        attributes.each_pair{|name, a|  gen.column(name, a.domain) }
+        attributes.each_pair{|name, a| gen.column(name, a.domain)}
         gen
       end
       

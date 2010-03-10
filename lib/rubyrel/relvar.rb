@@ -18,6 +18,11 @@ module Rubyrel
       @tuple = Tuple.new(relvar_def)
     end
     
+    # Returns attributes names of this relation variable
+    def attribute_names
+      relvar_def.attribute_names
+    end
+    
     # Yields the block with each tuple inside the relvar
     def each
       return unless block_given?
@@ -44,9 +49,9 @@ module Rubyrel
     def <<(tuples)
       case tuples
         when Array
-          underlying_table.multi_insert(tuples)
+          underlying_table.multi_insert(tuples.collect{|t| relvar_def.__to_physical_tuple(t)})
         when Hash
-          underlying_table.insert(tuples)
+          underlying_table.insert(relvar_def.__to_physical_tuple(tuples))
         else
           raise ArgumentError, "Unable to insert #{tuples} inside a relation variable"
       end

@@ -5,6 +5,7 @@ relvar(:suppliers) {
   attribute :name,   String
   attribute :status, Integer
   attribute :city,   String
+  attribute :adminlevel, Integer, {:default => 0}
   primary_key :id
 }
 relvar(:parts) {

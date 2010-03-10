@@ -17,10 +17,11 @@ module Rubyrel
       
       # Dumps this attribute definition as a rel catalog tuple
       def __to_catalog_tuple
-        {:namespace => relvar.namespace.name.to_s, 
-         :relvar    => relvar.name.to_s, 
-         :name      => name.to_s, 
-         :domain    => domain.to_s}.merge(options)
+        {:namespace => relvar.namespace.name, 
+         :relvar    => relvar.name, 
+         :name      => name, 
+         :domain    => domain.to_s,
+         :default   => default_value.nil? ? nil : domain.__rubyrel_to_physical_value(default_value)}
       end
       
       # Saves this namespace inside a relational database      
@@ -35,6 +36,11 @@ module Rubyrel
         raise ArgumentError, "Invalid domain #{domain}" unless Class === domain
         raise ArgumentError, "Invalid options #{options.inspect}" unless Hash === options
         @relvar, @name, @domain, @options = relvar, name, domain, options
+      end
+      
+      # Returns the default value to use
+      def default_value
+        options[:default]
       end
       
     end # class Attribute

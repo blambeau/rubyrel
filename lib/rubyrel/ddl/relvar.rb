@@ -34,7 +34,7 @@ module Rubyrel
       
       # Converts to a catalog tuple
       def __to_catalog_tuple
-        {:namespace => namespace.name.to_s, :name => name.to_s}
+        {:namespace => namespace.name, :name => name}
       end
       
       # Saves this schema inside a relational database      
@@ -47,9 +47,9 @@ module Rubyrel
       def __load_from_database(db)
         table = db[Rubyrel::DDL::Naming::relvar_qualified_name(db, :rubyrel_catalog, :base_relvar_attributes)]
         table.filter(:namespace => namespace.name.to_s, :relvar => name.to_s).each do |t|
-          name = t[:name].to_sym
+          name = Symbol.__rubyrel_from_physical_value(t[:name])
           domain = Kernel.eval(t[:domain])
-          options = {:default => t[:default]}
+          options = {:default => domain.__rubyrel_from_physical_value(t[:default])}
           add_attribute(name, domain, options)
         end
       end
@@ -59,7 +59,32 @@ module Rubyrel
         DSL.new(self, &block)
       end
       
+      # Converts a hash to a physical tuple
+      def __to_physical_tuple(hash)
+        physical_tuple = {}
+        each_attribute{|a|
+          value = hash.has_key?(a.name) ? hash[a.name] : a.default_value
+          physical_tuple[a.name] = value.nil? ? nil : a.domain.__rubyrel_to_physical_value(value) 
+        }
+        physical_tuple
+      end
+      
+      # Converts a physical tuple to a logical one
+      def __to_logical_tuple(hash)
+        logical_tuple = {}
+        each_attribute{|a|
+          value = hash[a.name]
+          logical_tuple[a.name] = value.nil? ? nil : a.domain.__rubyrel_from_physical_value(value) 
+        }
+        physical_tuple
+      end
+      
       ############################################################### Query utilities
+      
+      # Returns attribute names
+      def attribute_names 
+        @attributes.keys
+      end
       
       # Returns an attribute by its name. If raise_if_unfound is set to true,
       # raises an error if the attribute cannot be found, returns nil otherwise 

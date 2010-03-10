@@ -26,12 +26,12 @@ module Rubyrel
       
       # Converts this key definition as a rel catalog tuple
       def __to_catalog_tuple
-        {:namespace        => relvar.namespace.name.to_s, 
-         :relvar           => relvar.name.to_s, 
-         :name             => name.to_s, 
-         :target_namespace => target.relvar.namespace.name.to_s,
-         :target_relvar    => target.relvar.name.to_s,
-         :target_key       => target.name.to_s}
+        {:namespace        => relvar.namespace.name, 
+         :relvar           => relvar.name, 
+         :name             => name, 
+         :target_namespace => target.relvar.namespace.name,
+         :target_relvar    => target.relvar.name,
+         :target_key       => target.name}
       end
 
       # Saves this namespace inside a relational database      
@@ -39,10 +39,10 @@ module Rubyrel
         tuple = __to_catalog_tuple
         t.rubyrel_catalog.foreign_keys << tuple
         t.rubyrel_catalog.foreign_key_attributes << attributes.collect{|a|
-          {:namespace  => relvar.namespace.name.to_s, 
-           :relvar     => relvar.name.to_s, 
-           :key        => name.to_s,
-           :attribute  => a.name.to_s} 
+          {:namespace  => relvar.namespace.name, 
+           :relvar     => relvar.name, 
+           :key        => name,
+           :attribute  => a.name} 
         }
       end
 

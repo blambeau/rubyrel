@@ -21,7 +21,7 @@ module Rubyrel
     
     # Sets the physical representation
     def __set_physical(physical)
-      @physical = physical
+      @physical = @relvar_def.__to_logical_tuple(physical)
       self
     end
     

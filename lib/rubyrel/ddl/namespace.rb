@@ -24,7 +24,7 @@ module Rubyrel
       
       # Converts to a catalog tuple
       def __to_catalog_tuple
-        {:name => name.to_s}
+        {:name => name}
       end
       
       # Saves this namespace inside a relational database      
