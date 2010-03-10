@@ -29,12 +29,12 @@ module Sequel
     
     # Recognizes the Symbol class
     def type_literal_generic_symbol(column)
-      :string
+      type_literal_generic_string(column)
     end
     
     # Recognizes the Object class
     def type_literal_generic_object(column)
-      :string
+      type_literal_generic_string(column)
     end
     
   end
