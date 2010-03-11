@@ -6,9 +6,7 @@ module Rubyrel
       def initialize(schema)
         @schema = schema
         schema.each_namespace do |n|
-          self.class.send(:define_method, n.name) {
-            NamespaceRef.new(schema, n)
-          }
+          self.class.send(:define_method, n.name) { NamespaceRef.new(schema, n) }
         end
       end
       

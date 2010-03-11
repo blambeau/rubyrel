@@ -14,9 +14,7 @@ module Rubyrel
       # Populates this namespace reference 
       def populate!
         @namespace.each_relvar do |r|
-          self.class.send(:define_method, r.name) {
-            RelvarRef.new(@schema, r)
-          }
+          self.class.send(:define_method, r.name) { RelvarRef.new(@schema, r) }
         end
       end
       
