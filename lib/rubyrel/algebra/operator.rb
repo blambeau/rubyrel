@@ -1,5 +1,5 @@
 module Rubyrel
-  module Alebra
+  module Algebra
     # Main class of relational operators
     class Operator
       include Operand

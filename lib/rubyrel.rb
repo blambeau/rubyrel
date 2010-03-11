@@ -7,6 +7,7 @@ require 'rubyrel/database'
 require 'rubyrel/namespace'
 require 'rubyrel/relvar'
 require 'rubyrel/tuple'
+require 'rubyrel/algebra'
 module Rubyrel
   
   # Current Rubyrel version

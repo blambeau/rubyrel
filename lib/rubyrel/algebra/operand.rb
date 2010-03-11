@@ -8,6 +8,7 @@ module Rubyrel
       def project(*attributes)
         Project.new(self, attributes, false)
       end
+      alias :[] :project
       
       # Allbut projection on attributes
       def allbut(*attributes)

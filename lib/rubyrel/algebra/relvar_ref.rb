@@ -5,12 +5,9 @@ module Rubyrel
     #
     class RelvarRef < Operator
       
-      # Name of the referenced relation variable
-      attr_reader :relvar_name
-      
       # Creates an operator instance
-      def initialize(relvar_name)
-        @relvar_name = relvar_name
+      def initialize(schema, relvar)
+        @schema, @relvar = schema, relvar
       end
       
     end # class RelvarRef
