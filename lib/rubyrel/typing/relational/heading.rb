@@ -89,7 +89,7 @@ module Rubyrel
       def valid_ruby_literal?(pairs)
             (Hash === pairs) \
         && (pairs.size == degree) \
-        && all?{|a| a.domain.rel_belongs?(pairs[a.name])}
+        && all?{|a| a.domain.__rubyrel_belongs?(pairs[a.name])}
       end
   
 

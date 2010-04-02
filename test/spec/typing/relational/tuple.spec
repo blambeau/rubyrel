@@ -1,5 +1,5 @@
 require 'rubyrel'
-describe ::Rubyrel::Typing::TupleGenerator do
+describe ::Rubyrel::Typing::TupleDomain do
   extend ::Rubyrel::Typing; include ::Rubyrel::Typing
   
   People = tuple_type(:name => String, :age => Integer)

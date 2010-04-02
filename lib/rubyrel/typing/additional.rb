@@ -1,0 +1,1 @@
+require 'rubyrel/typing/additional/constrained_domain'

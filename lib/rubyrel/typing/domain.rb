@@ -1,24 +1,20 @@
 module Rubyrel
   module Typing
-    # 
-    # Prototype module for rubyrel domains
-    #
+    # Marker module for rubyrel domains
     module Domain
       
-      # Checks if a given value is belongs to the domain.
-      def rel_belongs?(value)
-        self === value
+      # Returns true if _value_ is belongs to the domain, false otherwise
+      def __rubyrel_belongs?(value)
+        raise NotImplementedError, "Domain #{self} should implement __rubyrel_belongs?"
       end
-      
-      # Converts a ruby literal to a valid value in the domain
-      def rel_from_ruby_literal(literal)
-        return literal if rel_belongs?(literal)
-        raise Rubyrel::TypeError, "Unable to convert #{literal} to a #{self}"
+  
+      # Converts a ruby literal to a valid value in the domain.
+      # Raises a ::Rubyrel::TypeError if the literal may not be converted to 
+      # a value that belongs to the domain
+      def __rubyrel_from_ruby_literal(literal)
+        raise NotImplementedError, "Domain #{self} should implement __rubyrel_from_ruby_literal"
       end
-      
+
     end # module Domain
   end # module Typing
 end # module Rubyrel
-class Class
-  include Rubyrel::Typing::Domain
-end
