@@ -15,18 +15,23 @@ module Rubyrel
       end
       
       # Checks if a given value is belongs to the domain.
-      def ===(value)
-        (superclass === value) and __rubyrel_domain_constraints.all?{|c| c.call(value)}
+      def __rubyrel_belongs?(value)
+        (superclass.__rubyrel_belongs?(value)) and __rubyrel_domain_constraints.all?{|c| c.call(value)}
       end
-      alias :__rubyrel_belongs? :===
+      alias :=== :__rubyrel_belongs?
       
       # Converts a ruby literal to a valid value in the domain
       def __rubyrel_from_ruby_literal(literal)
-        raise Rubyrel::TypeError, "Unable to convert #{literal} to a #{self}" unless __rubyrel_belongs?(literal)
-        if self.respond_to?(:new)
-          self.send(:new, literal) 
-        else
-          literal
+        case superclass
+          when ::Rubyrel::Typing::BuiltinDomain
+            raise Rubyrel::TypeError, "Unable to convert #{literal.inspect} to a #{self}" unless __rubyrel_belongs?(literal)
+            literal
+          when ::Rubyrel::Typing::TupleDomain
+            converted = superclass.__rubyrel_convert_ruby_literal(literal)
+            raise Rubyrel::TypeError, "Unable to convert #{literal.inspect} to a #{self}" unless __rubyrel_belongs?(converted)
+            converted
+          else
+            raise "Unexpected superclass #{superclass}"
         end
       end
       alias :[] :__rubyrel_from_ruby_literal

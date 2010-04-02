@@ -11,17 +11,26 @@ module Rubyrel
         (self === value)
       end
       
-      # Converts a ruby hash to a tuple value
-      def __rubyrel_from_ruby_literal(pairs)
+      def __rubyrel_convert_ruby_literal(pairs)
         new_pairs = {}
         heading.each{|a|
           raise TypeError, "Unable to convert #{pairs.inspect} to #{self}"\
             unless pairs.has_key?(a.name)
           new_pairs[a.name] = a.domain.__rubyrel_from_ruby_literal(pairs[a.name])  
         }
-        self.send(:new, new_pairs)
+        new_pairs
+      end
+      
+      # Converts a ruby hash to a tuple value
+      def __rubyrel_from_ruby_literal(pairs)
+        self.send(:new, __rubyrel_convert_ruby_literal(pairs))
       end
       alias :[] :__rubyrel_from_ruby_literal
+      
+      def to_s
+        "Rubyrel::Typing::tuple_domain#{heading.inspect}"
+      end
+      alias :inspect :to_s
       
     end # module TupleDomain
   end # module Typing

@@ -2,8 +2,8 @@ require 'rubyrel'
 describe ::Rubyrel::Typing::TupleDomain do
   extend ::Rubyrel::Typing; include ::Rubyrel::Typing
   
-  People = tuple_type(:name => String, :age => Integer)
-  Hobby = tuple_type(:kind => String)
+  People = tuple_domain(:name => String, :age => Integer)
+  Hobby = tuple_domain(:kind => String)
   
   it "should support type generation" do
     (Class === People).should be_true

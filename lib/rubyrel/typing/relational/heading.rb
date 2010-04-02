@@ -142,6 +142,7 @@ module Rubyrel
       def to_s
         definition
       end
+      alias :inspect :to_s
 
     end # class Heading
   end # module Typing

@@ -32,12 +32,12 @@ module Rubyrel
     module_function :heading
     
     # Creates a tuple type instance
-    def tuple_type(h)
+    def tuple_domain(h)
       clazz = generate(nil, [TupleDomain], [TupleValue])
       clazz.instance_eval{ @heading = ::Rubyrel::Typing::heading(h) }
       clazz
     end
-    module_function :tuple_type
+    module_function :tuple_domain
     
     # Creates a domain by restriction of another one
     def constrained(base, &block)
