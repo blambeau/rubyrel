@@ -1,0 +1,31 @@
+body {
+	font-family: Verdana, Arial;
+	font-size: 11px;
+	width: 1000px;
+	margin: auto;
+	margin-top: 20px;
+}
+#left_pane {
+	width: 20%;
+	float: left;
+}
+#left_pane h3 {
+	margin: 0px;
+	padding: 0px;
+}
+#left_pane h4 {
+	margin: 0px;
+/*	margin-top: 10px;*/
+	padding: 0px;
+}
+#left_pane ul {
+	margin: 0px;
+	padding: 0px;
+	padding-left: 10px;
+	list-style: none;
+}
+#right_pane {
+	float: left;
+	width: 70%;
+	padding: 0px 10px;
+}

@@ -1,0 +1,13 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<rows>
+  <page>${page_number}</page>
+  <total>${page_count}</total>
+  <records>${total_count}</records>
+  *{tuples as tuple}{
+    <row>
+      *{relvar.relvar_def using each_attribute as a}{
+        <cell>${tuple[a.name]}</cell>
+      }
+    </row>
+  }
+</rows>

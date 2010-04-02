@@ -1,0 +1,32 @@
+<table id="relvar_contents"></table>
+<div id="relvar_pager"></div>
+
+<script type="text/javascript">
+var lastSel = null;
+jQuery(document).ready(function(){ 
+  jQuery("#relvar_contents").jqGrid({
+    url:'content/${namespace.name}/${relvar.name}',
+    datatype: 'xml',
+    mtype: 'GET',
+    colNames:[*{relvar.attribute_names as n}{'{n}'}{, }],
+    colModel :[
+      *{relvar using each_attribute as a}{
+        {name: '{a.name}', index:'{a.name}', width:200, editable: true}
+      }{,}
+    ],
+    editurl: 'edit',
+    autowidth: true,
+    height: 500,
+    pager: '#relvar_pager',
+    rowEdit: true,
+    multiselect: true,
+    rownumbers: true,
+    sortable: true,
+    rowNum:10,
+    rowList:[10,20,50,100],
+    viewrecords: true,
+    caption: 'Content of ${relvar.name}'
+  }); 
+  jQuery("#relvar_contents").jqGrid('navGrid','#relvar_pager',{edit:true,add:true,del:true,view:true});
+}); 
+</script>

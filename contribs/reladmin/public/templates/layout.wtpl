@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<!-- ${served_file} -->
+	<head>
+		<title>Rel Administrator</title>
+		<meta http-equiv="Content-language" content="en" />
+		<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+		<base href="{Waw.config.web_base}"/>
+		*{css_files as css}{
+  		<link rel="stylesheet" type="text/css" href="{css}" />
+		}
+		<link rel="stylesheet" type="text/css" href="css/sunny/jquery-ui-1.8.custom.css" />
+		*{js_files as js}{
+  		<script type="text/javascript" src="{js}"></script>
+		}
+	</head>
+	<body>
+    <div id="left_pane">
+      <<+{menu.wtpl share all}
+    </div>
+    <div id="right_pane">
+      <<+{../${served_file} share all}
+    </div>
+	</body>
+</html>

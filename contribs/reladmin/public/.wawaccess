@@ -1,0 +1,81 @@
+wawaccess do
+  inherits false
+  strategy :deny_all
+
+  # When the root is requested
+  match root do
+    apply 'index.wtpl'
+  end
+  
+  match /edit/ do |*args|
+    puts request.params.inspect
+    [200, {'ContentType' => 'text/xml'}, [""]]
+  end
+
+  match /show\/([a-z_]+)\/([a-z_]+)/ do |url, namespace, relvar|
+    schema = resources.databases.suppliers.schema
+    namespace = schema.namespace(namespace.to_sym, false)
+    relvar = namespace.relvar(relvar.to_sym, false)
+    wlang 'templates/layout.wtpl', {
+      'served_file' => "show.wtpl",
+      :schema => schema,
+      :namespace => namespace,
+      :relvar => relvar
+    }
+  end
+
+  match /content\/([a-z_]+)\/([a-z_]+)/ do |url, namespace, relvar|
+    puts request.params.inspect
+    
+    # request parameters
+    page, rows = request.params['page'].to_i, request.params['rows'].to_i
+    sidx, sord = request.params['sidx'], request.params['sord']
+    offset, limit = (page-1)*rows, rows
+
+    # get information about the relation variable
+    database = resources.databases.suppliers
+    namespace = database.send(namespace.to_sym)
+    relvar = namespace.send(relvar.to_sym)
+
+    # compute paging variables
+    page_number = page
+    total_count = relvar.send(:underlying_table).count
+    page_count = (total_count.to_f/rows).ceil
+
+    # Retrieve tuples now
+    tuples = relvar.send(:underlying_table).limit(limit, offset)
+    tuples = tuples.order(sidx.to_sym.send(sord.to_sym)) if sidx and not(sidx.empty?)
+
+    result = wlang 'content.wtpl', {
+      :database => database, 
+      :namespace => namespace,
+      :relvar => relvar,
+      :tuples => tuples,
+      :page_number => page_number,
+      :total_count => total_count,
+      :page_count => page_count
+    }
+    result[1]['Content-Type'] = "text/xml"
+    result
+  end
+
+  # We match .wtpl files using wlang
+  match file(:extension => '.wtpl') do
+    wlang 'templates/layout.wtpl', {:schema => resources.databases.suppliers.schema}
+  end
+  
+  # We serve all as static file by default
+  match file do
+    static
+  end
+
+  # When the file cannot be found
+  match true do
+    if /\.wtpl$/ =~ served_file
+      [404, {'Content-Type' => 'text/html'}, ["Page not found"]]
+    else
+      apply "#{served_file}.wtpl"
+    end
+  end
+  
+end

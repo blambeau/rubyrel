@@ -1,0 +1,29 @@
+<div id="menu">
+	<h3><a href="#">Relation variables</a></h3>
+	<div>
+    *{schema using each_namespace as n}{
+ 	    <h4>${n.name}</h4>
+ 	    <ul>
+ 	      *{n using each_relvar as r}{
+ 	        <li><a href="/show/${n.name}/${r.name}">${r.name}</a></li>
+ 	      }
+ 	    </ul>
+    }
+	</div>
+
+	<h3><a href="#">Forms</a></h3>
+	<div>
+	</div>
+
+	<h3><a href="#">Listings</a></h3>
+	<div>
+	</div>
+
+	<h3><a href="#">Queries</a></h3>
+	<div>
+	</div>
+
+</div>
+<script type="text/javascript">
+	$(function() { $("#menu").accordion(); });
+</script>
