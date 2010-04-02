@@ -19,6 +19,8 @@ describe ::Rubyrel::Typing::ConstrainedDomain do
   it "should raise a TypeError on invalid selections" do
     lambda { names["123"] }.should raise_error(::Rubyrel::TypeError)
     lambda { names[12] }.should raise_error(::Rubyrel::TypeError)
+    lambda { positive_integers["12"] }.should raise_error(::Rubyrel::TypeError)
+    lambda { positive_integers[-1] }.should raise_error(::Rubyrel::TypeError)
   end
   
 end
