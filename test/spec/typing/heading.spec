@@ -116,4 +116,14 @@ describe ::Rubyrel::Typing::Heading do
     heading(:name => String, :age => Integer).definition.should == "(:age => Integer, :name => String)"
   end
 
+  it "should help performing type checking" do
+    heading({}).valid_ruby_literal?({}).should be_true
+    heading({}).valid_ruby_literal?(:age => 12).should be_false
+    h = heading(:name => String)
+    h.valid_ruby_literal?(:name => "blambeau").should be_true
+    h.valid_ruby_literal?({}).should be_false
+    h.valid_ruby_literal?(:age => 12).should be_false
+    h.valid_ruby_literal?(:name => "blambeau", :age => 12).should be_false
+  end
+
 end

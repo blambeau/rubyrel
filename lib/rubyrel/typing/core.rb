@@ -1,0 +1,1 @@
+require "rubyrel/typing/core/boolean"

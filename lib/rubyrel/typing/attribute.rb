@@ -14,7 +14,7 @@ module Rubyrel
       # Creates an attribute instance
       def initialize(name, domain, options = {})
         raise ArgumentError, "Invalid attribute name #{name}" unless Symbol === name
-        raise ArgumentError, "Invalid domain #{domain}" unless Class === domain
+        raise ArgumentError, "Invalid domain #{domain}" unless ::Rubyrel::Typing::Domain === domain
         raise ArgumentError, "Invalid options #{options.inspect}" unless Hash === options
         @name, @domain, @options = name, domain, options.freeze
       end

@@ -84,6 +84,16 @@ module Rubyrel
       def each(&block) @attributes.each(&block) end
 
 
+      ### Type checking ############################################################
+      
+      # Checks if a ruby Hash looks like a valid ruby literal for this heading
+      def valid_ruby_literal?(pairs)
+            (Hash === pairs) \
+        && (pairs.size == degree) \
+        && all?{|a| a.domain.rel_belongs?(pairs[a.name])}
+      end
+    
+
       ### Equality, hash code, to_s, ... ###########################################
   
       # 
