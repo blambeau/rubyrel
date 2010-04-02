@@ -1,6 +1,4 @@
 require 'rubyrel/typing/domain'
-require 'rubyrel/typing/attribute'
-require 'rubyrel/typing/heading'
 require 'rubyrel/typing/core'
 require 'rubyrel/typing/relational'
 module Rubyrel

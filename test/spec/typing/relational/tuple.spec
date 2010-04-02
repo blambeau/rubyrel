@@ -28,4 +28,10 @@ describe ::Rubyrel::Typing::TupleGenerator do
     hobby.respond_to?(:name).should be_false
   end
   
+  it "should detect invalid values" do
+    lambda { People[:name => "blambeau"] }.should raise_error(Rubyrel::TypeError) 
+    lambda { People[:name => "blambeau", :age => "12"] }.should raise_error(Rubyrel::TypeError) 
+    lambda { People[:name => :blambeau, :age => 12] }.should raise_error(Rubyrel::TypeError) 
+  end
+  
 end
