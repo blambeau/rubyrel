@@ -12,7 +12,7 @@ module Rubyrel
       
       # Converts a ruby literal to a valid value in the domain
       def rel_from_ruby_literal(literal)
-        return literal if rel_blongs?(literal)
+        return literal if rel_belongs?(literal)
         raise Rubyrel::TypeError, "Unable to convert #{literal} to a #{self}"
       end
       
