@@ -6,6 +6,7 @@ module Rubyrel
       # The domain specific language for relation variables
       class DSL
         include DSLCommons
+        include ::Rubyrel::Defaults::Facade
         
         # Creates a DSL instance for a given relvar and executes the block
         # inside its context

@@ -1,0 +1,1 @@
+require 'rubyrel/defaults/facade'
