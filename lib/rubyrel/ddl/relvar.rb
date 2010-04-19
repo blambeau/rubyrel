@@ -60,10 +60,10 @@ module Rubyrel
       end
       
       # Converts a hash to a physical tuple
-      def __to_physical_tuple(hash)
+      def __to_physical_tuple(relvar, hash)
         physical_tuple = {}
         each_attribute{|a|
-          value = hash.has_key?(a.name) ? hash[a.name] : a.default_value
+          value = hash.has_key?(a.name) ? hash[a.name] : a.default_value(relvar, hash)
           physical_tuple[a.name] = value.nil? ? nil : a.domain.__rubyrel_to_physical_value(value) 
         }
         physical_tuple

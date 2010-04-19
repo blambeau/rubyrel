@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sequel'
 require 'rubyrel/errors'
 require 'rubyrel/ext'
+require 'rubyrel/defaults'
 require 'rubyrel/ddl'
 require 'rubyrel/database'
 require 'rubyrel/namespace'
@@ -11,7 +12,7 @@ require 'rubyrel/algebra'
 module Rubyrel
   
   # Current Rubyrel version
-  VERSION = "0.0.1".freeze
+  VERSION = "0.0.3".freeze
   
   # Regular expression for checking all named things
   NAMED_REGEX = /^[a-z][a-z0-9_]*$/

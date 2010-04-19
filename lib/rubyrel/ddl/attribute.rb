@@ -39,8 +39,13 @@ module Rubyrel
       end
       
       # Returns the default value to use
-      def default_value
-        options[:default]
+      def default_value(relvar, tuple)
+        case d = options[:default]
+          when ::Rubyrel::Defaults::DefaultHandler
+            d.compute_value(relvar, self, tuple)
+          else
+            d
+        end
       end
       
     end # class Attribute

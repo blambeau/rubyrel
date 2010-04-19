@@ -1,5 +1,7 @@
+require 'fileutils'
 module Rubyrel
   module Fixtures
+    F = FileUtils
     
     def pgsql_test_connection_info
       {:host     => 'localhost',
@@ -67,7 +69,17 @@ module Rubyrel
     
     # Returns a database instance of suppliers-and-parts on a sqlite handler
     def suppliers_and_parts_sqlite_db
+      F.rm_rf("rubyrel.db") if File.exists?("rubyrel.db")
       schema = rrel_schema("suppliers_and_parts")
+      handler = ::Sequel.connect("sqlite://rubyrel.db")
+      schema.install_on!(handler)
+      ::Rubyrel::Database.new(schema, handler)
+    end
+    
+    # Returns a database instance of suppliers-and-parts on a sqlite handler
+    def defaults_sqlite_db
+      F.rm_rf("rubyrel.db") if File.exists?("rubyrel.db")
+      schema = rrel_schema("defaults")
       handler = ::Sequel.connect("sqlite://rubyrel.db")
       schema.install_on!(handler)
       ::Rubyrel::Database.new(schema, handler)

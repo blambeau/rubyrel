@@ -54,9 +54,9 @@ module Rubyrel
     def <<(tuples)
       case tuples
         when Array
-          underlying_table.multi_insert(tuples.collect{|t| relvar_def.__to_physical_tuple(t) })
+          tuples.each{|t| self.<<(t)} 
         when Hash
-          underlying_table.insert(relvar_def.__to_physical_tuple(tuples))
+          underlying_table.insert(relvar_def.__to_physical_tuple(self, tuples))
         else
           raise ArgumentError, "Unable to insert #{tuples} inside a relation variable"
       end
