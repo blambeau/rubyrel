@@ -12,12 +12,12 @@ module Rubyrel
       # Installs this schema on a given sequel database. Returns the database
       # instance.
       def install_on(db, options = {})
-        buffer = ""
+        execute_ddl(db, 'BEGIN', options)
         all_objects_in_order.each{|o| 
           sql = o.to_create_sql(db)
-          (buffer << sql << ";\n") unless sql.nil? or sql.empty?
+          execute_ddl(db, sql, options) unless sql.nil? or sql.empty?
         }
-        execute_ddl(db, buffer, options)
+        execute_ddl(db, 'COMMIT', options)
         db
       end
       

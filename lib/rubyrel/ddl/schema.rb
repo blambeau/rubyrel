@@ -61,7 +61,11 @@ module Rubyrel
         each_namespace{|n| objects << n}
         each_namespace{|n| 
           n.each_relvar{|r| objects << r}
+        }
+        each_namespace{|n| 
           n.each_relvar{|r| r.each_candidate_key{|k| objects << k}}
+        }
+        each_namespace{|n| 
           n.each_relvar{|r| r.each_foreign_key{|k| objects << k}}
         }
         objects

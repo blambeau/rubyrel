@@ -32,6 +32,7 @@ module Rubyrel
         end
         schema = Rubyrel::parse_ddl_file(schema_file)
         schema = Rubyrel::extend_schema(schema, Rubyrel::RUBYREL_CATALOG_FILE)
+        # schema.all_objects_in_order.each{|o| puts o}
         db = schema.install_on!(create_database(schema), {:verbose => verbose})
         db = Rubyrel::Database.new(schema, db)
         schema.__save_on_database(db)
