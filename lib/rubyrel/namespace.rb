@@ -39,6 +39,7 @@ module Rubyrel
       raise "Unknown relvar #{name}" unless relvars.has_key?(name) and raise_on_unfound
       relvars[name]
     end
+    alias :[] :relvar
     
     private :populate!
   end #  class Namespace

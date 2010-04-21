@@ -41,6 +41,19 @@ module Rubyrel
   end
   module_function :extend_schema
   
+  # Creates a database
+  def create_db(schema_file, handler, options = {})
+    raise ArgumentError, "Missing schema file argument" unless schema_file
+    raise ArgumentError, "Unable to find #{schema_file}" unless File.exists?(schema_file)
+    schema = Rubyrel::parse_ddl_file(schema_file)
+    schema = Rubyrel::extend_schema(schema, Rubyrel::RUBYREL_CATALOG_FILE)
+    db = schema.install_on!(::Sequel.connect(handler), options)
+    db = Rubyrel::Database.new(schema, db)
+    schema.__save_on_database(db)
+    db
+  end
+  module_function :create_db
+  
   # Connect a database given a physical handler
   def connect(handler) 
     sequel_db = ::Sequel.connect(handler)

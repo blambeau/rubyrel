@@ -60,4 +60,10 @@ describe ::Rubyrel::Relvar do
     @suppliers.should == [{:snumber => 0, :sname => "Jones"}]
   end
   
+  it "should support a restrict operator" do
+    s = @suppliers.restrict(:snumber => 1)
+    s.tuple_count.should == 1
+    s.tuple_extract.snumber.should == 1
+  end
+  
 end

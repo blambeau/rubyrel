@@ -47,11 +47,27 @@ module Rubyrel
 
       # File to execute on the engine  
       attr_accessor :file_execution
+      
+      # Ruby load path inclusions
+      attr_accessor :includes
+        
+      # Ruby requires
+      attr_accessor :requires
         
       # Contribute to options
       def add_options(opt)
+        self.includes = []
+        self.requires = []
         opt.on("--file=FILE", "-f", "Executes a given file on the database") do |value|
           self.file_execution = value
+        end
+        
+        opt.on("--include=PATH", '-I', 'Includes path into ruby load path') do |value|
+          self.includes << value
+        end
+        
+        opt.on("--require=PATH", '-R', 'Require a ruby gem before starting') do |value|
+          self.requires << value
         end
       end
       
@@ -67,6 +83,9 @@ module Rubyrel
       
       # Runs the sub-class defined command
       def __run(requester_file, arguments)
+        self.includes.each{|i| $LOAD_PATH.unshift(i)}
+        self.requires.each{|i| require(i)}
+        
         sequel_db = connect_database
         schema = Rubyrel::DDL::Schema.new(:noname)
         schema.__load_from_database(sequel_db)

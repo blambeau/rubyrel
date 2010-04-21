@@ -21,7 +21,7 @@ module Rubyrel
       def create_database(schema)
         self.handler_uri = "sqlite://#{schema.name}.db" unless handler_uri
         info("Using #{handler_uri} as physical handler") if verbose
-        ::Sequel.connect(handler_uri)
+        handler_uri
       end
       
       # Runs the sub-class defined command
@@ -30,12 +30,7 @@ module Rubyrel
         unless File.exists?(schema_file = arguments.shift)
           exit("Unable to find #{schema_file}")  
         end
-        schema = Rubyrel::parse_ddl_file(schema_file)
-        schema = Rubyrel::extend_schema(schema, Rubyrel::RUBYREL_CATALOG_FILE)
-        # schema.all_objects_in_order.each{|o| puts o}
-        db = schema.install_on!(create_database(schema), {:verbose => verbose})
-        db = Rubyrel::Database.new(schema, db)
-        schema.__save_on_database(db)
+        Rubyrel::create_db(schema_file, create_database(schema_file), {:verbose => verbose})
       end
 
     end # class Check

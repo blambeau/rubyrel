@@ -17,11 +17,12 @@ module Rubyrel
       
       # Dumps this attribute definition as a rel catalog tuple
       def __to_catalog_tuple
+        d = options[:default]
         {:namespace => relvar.namespace.name, 
          :relvar    => relvar.name, 
          :name      => name, 
          :domain    => domain.to_s,
-         :default   => default_value.nil? ? nil : domain.__rubyrel_to_physical_value(default_value)}
+         :default   => d.nil? ? nil : domain.__rubyrel_to_physical_value(d)}
       end
       
       # Saves this namespace inside a relational database      
