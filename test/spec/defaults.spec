@@ -15,4 +15,26 @@ describe ::Rubyrel::Defaults do
     end
   end
   
+  it "should return inserted tuples on insert" do
+    db = defaults_sqlite_db
+    db.base.examples = []
+    inserted = (db.base.examples << {})
+    (Hash === inserted).should be_true
+    inserted[:autonum].should == 1
+
+    db.base.examples.restrict(:autonum => 1).update(:explicit => 10)
+    tuple = db.base.examples.restrict(:autonum => 1).tuple_extract
+    tuple.explicit.should == 10
+  end
+  
+  it "should support relative autonumbers" do
+    db = defaults_sqlite_db
+    db.base.examples = []
+    (db.base.examples << {:explicit => 1})[:relative].should == 1
+    (db.base.examples << {:explicit => 1})[:relative].should == 2
+    (db.base.examples << {:explicit => 1})[:relative].should == 3
+    (db.base.examples << {:explicit => 2})[:relative].should == 1
+    (db.base.examples << {:explicit => 2})[:relative].should == 2
+  end
+  
 end

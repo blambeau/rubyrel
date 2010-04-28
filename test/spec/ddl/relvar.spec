@@ -18,7 +18,7 @@ describe ::Rubyrel::DDL::Relvar do
   it "should support defaut values" do
     schema = rrel_schema('suppliers_and_parts')
     suppliers = schema.namespace(:base).relvar(:suppliers)
-    suppliers.__to_physical_tuple(nil, :sname => "blambeau").should == {:sname => 'blambeau', :snumber => 0}
+    suppliers.__prepare_for_insert(nil, :sname => "blambeau").should == {:sname => 'blambeau', :snumber => 0}
   end
   
 end

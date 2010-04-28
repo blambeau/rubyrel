@@ -59,11 +59,29 @@ module Rubyrel
         DSL.new(self, &block)
       end
       
-      # Converts a hash to a physical tuple
-      def __to_physical_tuple(relvar, hash)
-        physical_tuple = {}
+      # Prepare a hash for insertion, computing default values
+      # when required
+      def __prepare_for_insert(relvar, hash)
+        logical_tuple = {}
         each_attribute{|a|
           value = hash.has_key?(a.name) ? hash[a.name] : a.default_value(relvar, hash)
+          logical_tuple[a.name] = value.nil? ? nil : value
+        }
+        logical_tuple
+      end
+      
+      # Prepare a hash for insertion, computing default values
+      # when required
+      def __prepare_for_update(relvar, hash)
+        hash
+      end
+      
+      # Encodes a physical tuple
+      def __physical_tuple_encode(relvar, hash)
+        physical_tuple = {}
+        each_attribute{|a|
+          next unless hash.has_key?(a.name)
+          value = hash[a.name]
           physical_tuple[a.name] = value.nil? ? nil : a.domain.__rubyrel_to_physical_value(value) 
         }
         physical_tuple

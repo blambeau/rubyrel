@@ -64,6 +64,12 @@ module Rubyrel
       each{|t| return t}    
     end
     
+    # Updates a tuple inside the relation variable
+    def update(tuple)
+      hash = relvar_def.__prepare_for_update(self, tuple)
+      underlying_table.update(relvar_def.__physical_tuple_encode(self, hash))
+    end
+    
   end # module CommonRelvarMethods
     
   # Relation variable inside a database
@@ -105,9 +111,11 @@ module Rubyrel
     def <<(tuples)
       case tuples
         when Array
-          tuples.each{|t| self.<<(t)} 
+          tuples.collect{|t| self.<<(t)} 
         when Hash
-          underlying_table.insert(relvar_def.__to_physical_tuple(self, tuples))
+          prepared = relvar_def.__prepare_for_insert(self, tuples)
+          underlying_table.insert(relvar_def.__physical_tuple_encode(self, prepared))
+          prepared
         else
           raise ArgumentError, "Unable to insert #{tuples} inside a relation variable"
       end

@@ -4,4 +4,5 @@ relvar(:examples) {
   attribute :explicit, Integer, :default => 0
   attribute :autonum, Integer,  :default => autonumber
   attribute :timenow, Time,     :default => now
+  attribute :relative, Integer, :default => autonumber(:explicit)
 }

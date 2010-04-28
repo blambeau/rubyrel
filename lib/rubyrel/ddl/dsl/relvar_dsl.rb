@@ -74,7 +74,7 @@ module Rubyrel
           # get the target now
           target = mapping.values[0]
           target = target.primary_key if Relvar === target
-          raise "Invalid foreign key target #{target}" unless Key===target
+          raise "Invalid foreign key #{name} for #{@relvar.name} (#{target.inspect})" unless Key===target
 
           @relvar.add_foreign_key(name, attributes, target)
         end
