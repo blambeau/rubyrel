@@ -42,5 +42,10 @@ module Sequel
       type_literal_generic_string(column)
     end
     
+    # Recognizes the Object class
+    def type_literal_generic_set(column)
+      type_literal_generic_string(column)
+    end
+    
   end
 end
