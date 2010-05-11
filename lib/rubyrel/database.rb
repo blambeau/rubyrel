@@ -40,8 +40,13 @@ module Rubyrel
     # Returns a namespace by its name. If raise_on_unfound is set to true, raise
     # an error if the namespace cannot be found. Returns nil otherwise.
     def namespace(name, raise_on_unfound = true)
-      raise "Unknown namespace #{name}" unless namespaces.has_key?(name) and raise_on_unfound
-      namespaces[name]
+      if namespaces.has_key?(name)
+        namespaces[name]
+      elsif raise_on_unfound
+        raise "Unknown namespace #{name}"
+      else
+        nil
+      end
     end
     
     private :populate!

@@ -19,7 +19,7 @@ module Rubyrel
       def initialize(relvar, name, attributes, primary = false)
         raise ArgumentError, "Invalid relvar #{relvar}" unless Relvar === relvar
         raise ArgumentError, "Invalid key name #{name}" unless String === name
-        raise ArgumentError, "Invalid attributes #{attributes.all?}" unless attributes.all?{|a| Attribute===a}
+        raise ArgumentError, "Invalid attributes #{attributes.inspect}" unless attributes.all?{|a| Attribute===a}
         @relvar, @name, @attributes = relvar, name, attributes
         @primary = false
       end

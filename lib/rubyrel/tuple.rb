@@ -25,6 +25,11 @@ module Rubyrel
       self
     end
     
+    # Returns a value by its name
+    def [](name)
+      @physical && @physical[name]
+    end
+    
     # Returns a Rel literal for this tuple
     def inspect
       @physical.inspect
