@@ -107,6 +107,11 @@ module Rubyrel
       underlying_table.delete
     end
     
+    # Checks if the relation variable is empty or not
+    def empty?
+      underlying_table.empty?
+    end
+    
     # Inserts some tuples
     def <<(tuples)
       case tuples

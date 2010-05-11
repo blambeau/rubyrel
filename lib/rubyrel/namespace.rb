@@ -36,8 +36,13 @@ module Rubyrel
     # Returns a relation variable by its name. If raise_on_unfound is set to true, raise
     # an error if the relvar cannot be found. Returns nil otherwise.
     def relvar(name, raise_on_unfound = true)
-      raise "Unknown relvar #{name}" unless relvars.has_key?(name) and raise_on_unfound
-      relvars[name]
+      if relvars.has_key?(name)
+        relvars[name]
+      elsif raise_on_unfound
+        raise "Unknown relvar #{name}"
+      else
+        nil
+      end
     end
     alias :[] :relvar
     
